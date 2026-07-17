@@ -37,11 +37,24 @@ Verified by actually doing it: cloned into an isolated scratch directory, ran `n
 
 ## Motivation / engagement design notes
 
+**The story:** the cohort's own program calls itself the "Summer Pilot," so Waypoint leans into that
+— every project is a route, every task a leg of the journey, your team is the crew. Finishing work
+is framed as logging a leg of a voyage, not just checking a box. That thread runs through two real
+features, not just copy:
+
+- **Voyage Log** — a per-project activity timeline (task creation/completion, comments, checklist
+  items checked off) assembled chronologically from real data. The ship's log of what actually happened.
+- **Conditions indicator** on Insights — "Smooth sailing / Choppy waters / Storm warning," computed
+  from the overdue-task ratio. A weather report for your project, not just a raw number.
+
+Plus the baseline motivational mechanics:
+
 - **Focus widget:** dashboard surfaces the single most urgent task assigned to you (earliest due date first) plus a "shipped this week" count — one clear next action instead of scanning three kanban columns.
 - **Progress visibility:** per-project completion bars, a per-project Insights page (7-day completion chart, average cycle time, per-assignee breakdown), and a live incomplete-task count badge next to "My Tasks" in the nav.
-- **Signals that make people want to ship:** a confetti celebration when a task is marked done, colored due-date urgency badges (overdue/due-soon), and colored task labels (Trello-style chips) for at-a-glance triage.
+- **Signals that make people want to ship:** a confetti celebration plus a completion toast when a task is marked done, colored due-date urgency badges (overdue/due-soon), and colored task labels (Trello-style chips) for at-a-glance triage.
 - **Low-friction workflow:** drag-and-drop cards between kanban columns, a `⌘K` command palette to jump between projects, a keyboard shortcut (`n`) for quick task creation, project templates (Sprint Board / Bug Tracker) that pre-populate starter tasks, and subtask checklists with a progress bar.
 - **Collaboration:** comment threads per task, member management by email, post-creation project editing.
+- **Visual identity:** a gradient background (not flat), a real hero/narrative moment on the login page instead of a bare form, and subtle motion (fade-in, hover-lift) throughout — added specifically because an early version read as a generic spec-built tool next to more visually distinctive peer submissions.
 
 ## Known limitations
 
@@ -57,7 +70,7 @@ Stated plainly rather than left for a reviewer to find:
 ## Agent usage summary
 
 - **Research:** Read the cohort's own curriculum docs directly from `rogerSuperBuilderAlpha/hult-cohort-program` (onboarding, `requirements.md`, `review-rubric.md`, `governance/winner-selection.md`, `assessment/peer-review-system.md`) to determine actual scope, since the program's marketing pages and curriculum repo disagreed on what Week 1 covered. Also reviewed already-merged peer submissions to calibrate scope and find real gaps (a project-ownership security bug, a missing "clear next action" widget, no documented reviewer login) before finishing.
-- **Development:** Built the full Next.js + Firebase app end-to-end via Claude: auth, projects/tasks CRUD, kanban board with drag-and-drop, due dates, colored labels, comments, subtask checklists, a command palette, a Focus/momentum widget, a per-project Insights view, project templates, and a confetti completion celebration. Deployed to Vercel and wired up Firestore security rules.
+- **Development:** Built the full Next.js + Firebase app end-to-end via Claude: auth, projects/tasks CRUD, kanban board with drag-and-drop, due dates, colored labels, comments, subtask checklists, a command palette, a Focus/momentum widget, a per-project Insights view, project templates, and a confetti completion celebration. Later added a visual identity pass (gradient background, hero login page, motion) and the voyage-story features (Voyage Log, Conditions indicator) after comparing against merged peer submissions. Deployed to Vercel and wired up Firestore security rules.
 - **QA:** Live browser verification after every change (signup/login, project and task CRUD, status transitions, comments, checklists, filters, command palette navigation) via browser automation against both localhost and the production URL; a genuine fresh-clone install+build+boot test in an isolated directory; a self-review pass against three merged peer submissions that caught and fixed the ownership security bug described above.
 
 ## Test plan
