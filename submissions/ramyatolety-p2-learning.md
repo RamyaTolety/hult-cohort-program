@@ -41,8 +41,15 @@ described in early cohort emails. Atelier implements:
   then discards the Ludwitt access token and issues Atelier's own short-lived session cookie.
 - Verified server-side (`curl -I https://atelier-ramyatolety.vercel.app/auth/login`) that the
   redirect target contains the correct `client_id`, production `redirect_uri`, and `scope`.
-- Full click-through pending live confirmation (requires a real Ludwitt account; only the
-  human can complete the actual consent screen).
+- Verified the identity-fetch code directly against Ludwitt's real API using a Ludwitt-issued
+  test access token (from the Creator dashboard's "Test mode" flow): `GET
+  https://pitchrise.ludwitt.com/api/oauth/userinfo` returned `HTTP 200` with `{ sub, email,
+  name, picture }` in exactly the shape `fetchUserinfo()` expects, and the correct account data.
+- The live browser consent screen (`/oauth/authorize`) currently returns `invalid_client`
+  because the app is still at Ludwitt's "Get ready" stage and hasn't cleared their own app
+  review queue (submitted for review; their dashboard states a 1 to 2 business day turnaround).
+  This is a platform-side gate, not an integration bug, the same category of issue as the ALC
+  portal lock other cohort members hit and documented rather than worked around.
 
 This app requests only the `profile` scope. It does not request `credits:read` or
 `credits:spend`, and never calls the AI-proxy or credit-balance endpoints, since it has no AI
@@ -75,5 +82,6 @@ measured later in the program and is not a condition of merging this PR.
 - [x] Home, track, and lesson pages render correctly in a live browser preview
 - [x] Quiz interaction works and gracefully degrades with no session (no login required to browse)
 - [x] `/auth/login` redirects to the correct Ludwitt authorize URL (verified via `curl -I`)
-- [ ] Full OAuth sign-in click-through confirmed live (in progress)
+- [x] Identity-fetch code verified against the real Ludwitt API via a test access token (HTTP 200, correct shape and data)
+- [ ] Full browser consent click-through, blocked on Ludwitt's app review queue (submitted, 1-2 business day turnaround per their dashboard)
 - [x] App registered on Ludwitt Creator dashboard, Bring-your-own-backend tier
